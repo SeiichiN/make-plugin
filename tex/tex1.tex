@@ -1,0 +1,102 @@
+\documentclass[dvipdfmx]{jsarticle}
+
+\include{begin}
+
+\section{簡単なWebアプリを作成する}
+
+以下のような、簡単なWebアプリを作成してみた。
+
+\begin{lstlisting}[caption=index.html]
+ <!doctype html>
+ <html lang="ja">
+   <head>
+     <meta charset="utf-8"/>
+     <title>Click me</title>
+     <link rel="stylesheet" href="css/onclick.css"/>
+   </head>
+   <body>
+     <h1>Click me</h1>
+     <section>
+       <button id="start">クリックしてね</button>
+       <div id="area">
+         <img id="close" src="./img/close.gif" alt="close"/>
+         <p>これはクリックすると、文字列を表示するだけのシンプルなプラグインです。<br/>
+         プラグインの勉強のために作成しました。</p>
+       </div>
+     </section>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+     <script src="js/onclick.js"></script>
+   </body>
+ </html>
+\end{lstlisting}
+
+\begin{multicols}{2}
+\begin{lstlisting}[caption=onclick.js]
+'use strict';
+
+$(function () {
+  $('#start').on('click', function() {
+    $('#area').css('display', 'block');
+    $('#start').css('display', 'none');
+  });
+
+  $('#close').on('click', function() {
+    $('#area').css('display', 'none');
+    $('#start').css('display', 'block');
+  });
+});
+\end{lstlisting}
+
+
+\begin{lstlisting}[caption=onclick.css]
+@charset "UTF-8";
+
+#area {
+  display: none;
+}
+
+#start {
+  cursor: pointer;
+}
+
+#close {
+  cursor: pointer;
+}
+\end{lstlisting}
+\end{multicols}
+
+\vspace{3mm}
+\includegraphics[width=4cm]{img/app01.png}
+\vspace{3mm}
+
+\vspace{3mm}
+\hspace{10mm}
+\includegraphics[width=5mm]{img/arrow-down.png}
+\vspace{3mm}
+
+
+\vspace{3mm}
+\includegraphics[width=10cm]{img/app02.png}
+\vspace{3mm}
+
+フォルダ構成は、以下のとおり。
+
+\begin{spacing}{0.8}
+\begin{verbatim}
+./onclick-plugin
+├── css/
+│   └── onclick.css
+├── img/
+│   └── close.gif
+├── index.html
+└── js/
+    └── onclick.js
+\end{verbatim}
+\end{spacing}
+
+    
+
+
+\include{end}
+
+%% 修正時刻： Sun Oct 31 10:46:56 2021

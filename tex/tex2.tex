@@ -1,0 +1,197 @@
+\documentclass[dvipdfmx]{jsarticle}
+
+\include{begin}
+
+\section{プラグインに変更する}
+
+index.html をもとに プラグインを作っていく。
+
+\subsection{プラグインファイルをつくる}
+
+以下のように、プラグインのファイルを作る。
+プラグイン名がわかるように名前をつける。
+index.html と同じ場所に置く。
+
+\vspace{3mm}
+\framebox[4cm][c]{\textsf{onclick-plugin.php}}
+\vspace{3mm}
+
+
+そして、ファイルの先頭部分に以下の記述をする。
+
+\begin{lstlisting}[caption=onclick-plugin.php]
+<?php
+/*
+ * @wordpress-plugin 
+ * Plugin Name: Onclick Plugin 
+ * Description: 'onclick'のテスト。ショートコードは '[insert_onclick]' 。
+ * Version: 1.0 
+ * Author: Seiichi Nukayama
+ */
+\end{lstlisting}
+
+\begin{enumerate}
+ \item プラグインであることを WordPress に伝えている。
+ \item ダッシュボードのプラグイン一覧に表示される。
+ \item プラグイン一覧に表示される。ショートコードもここに書いておく。
+ \item プラグインの管理上、必要。
+ \item 作者名も書いておく。
+\end{enumerate}
+
+\subsection{各種スクリプトファイルの読込指定}
+
+スタイルシート(onclick.css) や JavaScriptファイル(onclick.js) を読み込ませるための
+記述が以下である。
+
+\begin{lstlisting}[caption=onclick-plugin.php]
+function add_somefiles() {
+  wp_enqueue_script('onclick', plugins_url('js/onclick.js', __FILE__), array('jquery'), '1.0', true);
+  wp_enqueue_style('onclick', plugins_url('css/onclick.css', __FILE__));
+}
+add_action('wp_enqueue_scripts', 'add_somefiles');
+\end{lstlisting}
+
+ここでは、\textsf{add\_somefiles} という名前の関数を定義し、それを \textsf{add\_action()}関数で
+読み込んでいる。そして、それを \textsf{wp\_enqueue\_scripts}というアクションフックに登録している。
+
+wp\_enqueue\_scripts というアクションフックに登録しておけば、適切なタイミングで JavaScriptを読み込ん
+でくれるのである。
+
+jsフォルダにある \textsf{onclick.js} は、\fbox{\textsf{wp\_enqueue\_scrpit()}} という関数で読み込ませる
+ことができる。この関数は引数を5個もっている。
+
+\vspace{3mm}
+\begin{tabular}{|l|} \hline
+\verb!wp_enqueue_script('onclick', plugins_url('js/onclick.js', __FILE__),! \\
+\verb!                   array('jquery'), '1.0', true)! \\ \hline
+\end{tabular}
+
+\begin{enumerate}
+ \item 'onclick\_js' \\
+       ここで読み込ませる onclick.js のハンドル名。スクリプトに \verb!id="onclick-js"! として出力される。
+ \item plugins\_url('js/onclick.js', \_\_FILE\_\_) \\
+       読み込むファイルを指定。\textsf{plugins\_url()} を使うことで、プラグインのフォルダを指定できる。
+       \textsf{\_\_FILE\_\_} 指定により、絶対パスを取得でき、それを親ディレクトリとして 'js/onclick.js'
+       を指定できる。
+ \item array('jquery') \\
+       このスクリプトが依存するファイルを指定できる。ここでは jQuery を指定している。
+       jQuery は WordPress がデフォルトで読み込んでくれているので、それを使うという意味である。
+ \item '1.0' \\
+       このバージョン番号はこのスクリプトが読み込まれるときに URL文字列にクエリ文字列として出力されるので、
+       スクリプトファイルのバージョンを表すものとして使える。指定すべきである。
+ \item true \\
+       これを true にすると、Body の終了タグの直前にスクリプトを読み込んでくれる。
+\end{enumerate}
+
+
+\vspace{3mm}
+\begin{tabular}{|l|} \hline
+ \verb!wp_enqueue_style('onclick', plugins_url('css/onclick.css', __FILE__), array(),! \\
+ \verb!                 '1.0');! \\ \hline
+\end{tabular}
+
+\begin{enumerate}
+ \item 'onclick' \\
+       スクリプトに \verb!id="onclick-css"! と出力される。
+ \item plugins\_url('css/onclick.css', \verb!__FILE__!) \\
+       onclick.css を プラグインフォルダ(絶対パス)に続けて読み込ませる。
+ \item array() \\
+       このスタイルシートの前に読み込むべきスタイルシートを指定できる。無ければ空の配列を記述しておく。
+ \item '1.0' \\
+       スクリプトの記述にクエリ文字列としてバージョンを記述できる。
+\end{enumerate}
+
+
+\subsection{画面出力部分}
+
+続けて画面出力部分を記述する。
+
+\begin{lstlisting}[caption=onclick-plugin.php]
+function go_test() {
+ ob_start();
+?>
+ <section>
+   <button id="start">クリックしてね</button>
+   <div id="area">
+     <img id="close" src="<?php echo plugins_url('img/close.gif', __FILE__); ?>" alt="close">
+     <p>これはクリックすると、文字列を表示するだけのシンプルなプラグインです。<br>
+        プラグインの勉強のために作成しました。</p>
+   </div>
+ </section>
+ <?php
+ return ob_get_clean();
+}
+add_shortcode('insert_onclick', 'go_test');
+\end{lstlisting}
+
+\begin{description}
+ \item[1行目] function go\_test() \\
+       関数名を定義。この関数名は 15行目で 'insert\_onclick' というショートコードと結びつけている。
+ \item[2行目] ob\_start() \\
+       以下に記述する HTMLをすぐに出力せずに バッファリングする。
+ \item[7行目] <?php echo plugins\_url('/img/close.gif', \verb!__FILE__!); ?> \\
+       close.gif を plugins\_url() を使ってディレクトリ指定している。
+ \item[13行目] return \verb!ob_get_clean()! \\
+       ここでバッファリングしていた文字列を出力する。そのことで、'insert\_onclick' という
+       ショートコードを記述した部分に出力されるのである。
+\end{description}
+
+\subsection{コードをまとめると\dots\dots}
+
+\begin{lstlisting}[caption=onclick-plugin.php]
+<?php
+/*
+ * @wordpress-plugin                                                      // <1>
+ * Plugin Name: Onclick Plugin                                            // <2>
+ * Description: 'onclick'のテスト。ショートコードは '[insert_onclick]' 。 // <3>
+ * Version: 1.0                                                           // <4>
+ * Author: Seiichi Nukayama                                               // <5>
+ */
+
+function add_somefiles() {
+  wp_enqueue_script('onclick', plugins_url('js/onclick.js', __FILE__), array('jquery'), '1.0', true);
+  wp_enqueue_style('onclick', plugins_url('css/onclick.css', __FILE__));
+}
+add_action('wp_enqueue_scripts', 'add_somefiles');
+ 
+function go_test() {
+ ob_start();
+?>
+ <section>
+   <button id="start">クリックしてね</button>
+   <div id="area">
+     <img id="close" src="<?php echo plugins_url('img/close.gif', __FILE__); ?>" alt="close">
+     <p>これはクリックすると、文字列を表示するだけのシンプルなプラグインです。<br>
+        プラグインの勉強のために作成しました。</p>
+   </div>
+ </section>
+ <?php
+ return ob_get_clean();
+}
+add_shortcode('insert_onclick', 'go_test');
+\end{lstlisting}
+
+index.html は不要なので、削除する。フォルダ構成は、以下。
+
+\begin{spacing}{0.8}
+\begin{verbatim}
+./onclick-plugin
+ ├── css/
+ │   └── onclick.css
+ ├── img/
+ │   └── close.gif
+ ├── js/
+ │   └── onclick.js
+ └── onclick-plugin.php
+\end{verbatim}
+\end{spacing}
+
+この onclick-plugin フォルダを zip形式で圧縮する。
+
+これを WordPressのダッシュボードで プラグイン -- 新規追加 -- プラグインのアップロード
+を選択し、''参照''ボタンでアップロードすればよい。
+
+
+\include{end}
+
+%% 修正時刻： Sun Oct 31 16:06:12 2021
