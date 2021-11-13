@@ -1,0 +1,63 @@
+\documentclass[dvipdfmx]{jsarticle}
+
+\include{begin}
+
+\section{ダッシュボードに設定画面を作る}
+
+ダッシュボードに設定画面を作ってみる。今回は、「設定」タブに ``onclick plugin'' の
+項目を追加してみる。
+
+onclick-plugin.php と同じフォルダに \emph{onclick-plugin-menu.php} を作成し、
+以下の内容とする。
+
+\begin{lstlisting}[caption=onclick-plusin-menu.php]
+<?php
+function onclick_plugin_menu() {
+  add_options_page (
+    'onclick plugin 設定',        // 管理ページのタイトル
+    'onclick plugin',             // 管理メニュー名
+    'manage_options',             // 管理ページのコンテンツを表示するのに必要な権限
+    'onclick-plugin-menu.php',    // 管理ページのコンテンツを表示する phpファイル
+    'onclick_plugin_admins_page'  // 管理ページのコンテンツを表示する関数
+  );
+}
+add_action('admin_menu', 'onclick_plugin_menu');
+
+function onclick_plugin_admins_page() {
+  ?>
+  <div class="wrap">
+    <h2>onclick plugin 設定</h2>
+    <p>このショートコードをコピーしてください</p>
+    <input type="text" onfocus="this.select()"
+           style="font-size: 24px" value="[insert_onclick]"/>
+  </div>
+<?php 
+}
+\end{lstlisting}
+
+そして、このファイルを onclick-plugin.php で読み込む。
+
+\begin{lstlisting}[caption=onclick-plugin.php]
+... (略) ...
+ * Author: Seiichi Nukayama
+ */
+ 
+require_once('onclick-plugin-menu.php');     // <==
+
+function add_somefiles() {
+ ... (略) ...
+\end{lstlisting}
+
+これで、ダッシュボードの「設定」タブに ``onclick plugin'' という項目で
+できている。
+
+それをクリックすると、''onclick plugin 設定''画面が開く。
+
+\vspace\baselineskip
+
+(\textgt{参考}) \href{https://oxynotes.com/?p=9321}{本気で作りたい人向け、WordPressプラグインの作成方法}
+
+
+\include{end}
+
+%% 修正時刻： Sat Nov 13 12:58:28 2021

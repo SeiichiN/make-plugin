@@ -171,6 +171,32 @@ function go_test() {
 add_shortcode('insert_onclick', 'go_test');
 \end{lstlisting}
 
+
+\subsection{\$ を jquery に変える}
+
+最後に、JavaScriptのコード ``onclick.js'' を少し修正する。
+というのは、WordPressでは ``\$'' は
+使えないのである。``\$''を \textsf{jQuery} に変更する。
+
+\begin{lstlisting}[caption=onclick.js]
+'use strict';
+
+jQuery(function () {
+  jQuery('#start').on('click', function() {
+    jQuery('#area').css('display', 'block');
+    jQuery('#start').css('display', 'none');
+  });
+
+  jQuery('#close').on('click', function() {
+    jQuery('#area').css('display', 'none');
+    jQuery('#start').css('display', 'block');
+  });
+});
+\end{lstlisting}
+
+
+これでできた。
+
 index.html は不要なので、削除する。フォルダ構成は、以下。
 
 \begin{spacing}{0.8}
@@ -188,10 +214,14 @@ index.html は不要なので、削除する。フォルダ構成は、以下。
 
 この onclick-plugin フォルダを zip形式で圧縮する。
 
-これを WordPressのダッシュボードで プラグイン -- 新規追加 -- プラグインのアップロード
+
+これを WordPressのダッシュボードで
+ ``プラグイン'' -- ``新規追加'' -- ``プラグインのアップロード''
 を選択し、''参照''ボタンでアップロードすればよい。
+
+
 
 
 \include{end}
 
-%% 修正時刻： Sun Oct 31 16:06:12 2021
+%% 修正時刻： Sat Nov 13 11:29:47 2021

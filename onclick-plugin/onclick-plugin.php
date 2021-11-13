@@ -7,6 +7,8 @@
  * Author: Seiichi Nukayama                                               // <5>
  */
 
+require_once('onclick_plugin_menu.php');
+
 function add_somefiles() {
   wp_enqueue_script('onclick', plugins_url('js/onclick.js', __FILE__), array('jquery'), '1.0', true);
   wp_enqueue_style('onclick', plugins_url('css/onclick.css', __FILE__));
@@ -29,4 +31,4 @@ function go_test() {
 }
 add_shortcode('insert_onclick', 'go_test');
 
- /* 修正時刻: Sun Oct 31 16:15:02 2021*/
+ /* 修正時刻: Sat Nov 13 12:47:54 2021*/
