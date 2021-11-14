@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+#area {
+  display: none;
+}
+
+#start {
+  cursor: pointer;
+}
+
+#close {
+  cursor: pointer;
+}
+
+/* 修正時刻: Sun Oct 31 09:51:21 2021 */
