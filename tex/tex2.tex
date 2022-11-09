@@ -4,6 +4,10 @@
 
 \section{プラグインに変更する}
 
+C:\yen MAMP\yen htdocs\yen wp-content\yen plugins の中に
+``onclick-plugin'' というフォルダを作成し、その中にファイル一式を
+置く。
+
 index.html をもとに プラグインを作っていく。
 
 \subsection{プラグインファイルをつくる}
@@ -19,7 +23,9 @@ index.html と同じ場所に置く。
 
 そして、ファイルの先頭部分に以下の記述をする。
 
-\begin{lstlisting}[caption=onclick-plugin.php]
+\begin{lstlisting}[
+ caption=onclick-plugin.php,
+ language=PHP]
 <?php
 /*
  * @wordpress-plugin 
@@ -43,10 +49,16 @@ index.html と同じ場所に置く。
 スタイルシート(onclick.css) や JavaScriptファイル(onclick.js) を読み込ませるための
 記述が以下である。
 
-\begin{lstlisting}[caption=onclick-plugin.php]
+\begin{lstlisting}[
+ caption=onclick-plugin.php,
+ language=PHP]
 function add_somefiles() {
-  wp_enqueue_script('onclick', plugins_url('js/onclick.js', __FILE__), array('jquery'), '1.0', true);
-  wp_enqueue_style('onclick', plugins_url('css/onclick.css', __FILE__));
+  wp_enqueue_script('onclick',
+                    plugins_url('js/onclick.js', __FILE__),
+                    array('jquery'), '1.0', true);
+  wp_enqueue_style('onclick',
+                   plugins_url('css/onclick.css', __FILE__),
+                   array(), '1.0');
 }
 add_action('wp_enqueue_scripts', 'add_somefiles');
 \end{lstlisting}
@@ -62,7 +74,8 @@ jsフォルダにある \textsf{onclick.js} は、\fbox{\textsf{wp\_enqueue\_scr
 
 \vspace{3mm}
 \begin{tabular}{|l|} \hline
-\verb!wp_enqueue_script('onclick', plugins_url('js/onclick.js', __FILE__),! \\
+\verb!wp_enqueue_script('onclick',! \\
+\verb!                   plugins_url('js/onclick.js', __FILE__),! \\
 \verb!                   array('jquery'), '1.0', true)! \\ \hline
 \end{tabular}
 
@@ -86,8 +99,9 @@ jsフォルダにある \textsf{onclick.js} は、\fbox{\textsf{wp\_enqueue\_scr
 
 \vspace{3mm}
 \begin{tabular}{|l|} \hline
- \verb!wp_enqueue_style('onclick', plugins_url('css/onclick.css', __FILE__), array(),! \\
- \verb!                 '1.0');! \\ \hline
+ \verb!wp_enqueue_style('onclick',!\\
+ \verb!                  plugins_url('css/onclick.css', __FILE__),! \\
+ \verb!                  array(), '1.0');! \\ \hline
 \end{tabular}
 
 \begin{enumerate}
@@ -116,20 +130,22 @@ jsフォルダにある \textsf{onclick.js} は、\fbox{\textsf{wp\_enqueue\_scr
 
 続けて画面出力部分を記述する。
 
-\begin{lstlisting}[caption=onclick-plugin.php]
+\begin{lstlisting}[caption=onclick-plugin.php, language=PHP]
 function go_test() {
- ob_start();
+ ob_start();   // バッファに出力する文字をためる
 ?>
  <section>
    <button id="start">クリックしてね</button>
    <div id="area">
-     <img id="close" src="<?php echo plugins_url('img/close.gif', __FILE__); ?>" alt="close">
+     <img id="close"
+          src="<?php echo plugins_url('img/close.gif', __FILE__); ?>"
+          alt="close">
      <p>これはクリックすると、文字列を表示するだけのシンプルなプラグインです。<br>
         プラグインの勉強のために作成しました。</p>
    </div>
  </section>
  <?php
- return ob_get_clean();
+ return ob_get_clean();   // バッファから文字を出力する
 }
 add_shortcode('insert_onclick', 'go_test');
 \end{lstlisting}
@@ -148,7 +164,7 @@ add_shortcode('insert_onclick', 'go_test');
 
 \subsection{コードをまとめると\dots\dots}
 
-\begin{lstlisting}[caption=onclick-plugin.php]
+\begin{lstlisting}[caption=onclick-plugin.php, language=PHP]
 <?php
 /*
  * @wordpress-plugin                                                      // <1>
@@ -159,8 +175,11 @@ add_shortcode('insert_onclick', 'go_test');
  */
 
 function add_somefiles() {
-  wp_enqueue_script('onclick', plugins_url('js/onclick.js', __FILE__), array('jquery'), '1.0', true);
-  wp_enqueue_style('onclick', plugins_url('css/onclick.css', __FILE__));
+  wp_enqueue_script('onclick',
+                    plugins_url('js/onclick.js', __FILE__),
+                    array('jquery'), '1.0', true);
+  wp_enqueue_style('onclick', plugins_url('css/onclick.css', __FILE__),
+                    array(), '1.0');
 }
 add_action('wp_enqueue_scripts', 'add_somefiles');
  
@@ -170,7 +189,9 @@ function go_test() {
  <section>
    <button id="start">クリックしてね</button>
    <div id="area">
-     <img id="close" src="<?php echo plugins_url('img/close.gif', __FILE__); ?>" alt="close">
+     <img id="close"
+          src="<?php echo plugins_url('img/close.gif', __FILE__); ?>"
+          alt="close">
      <p>これはクリックすると、文字列を表示するだけのシンプルなプラグインです。<br>
         プラグインの勉強のために作成しました。</p>
    </div>
@@ -234,4 +255,4 @@ index.html は不要なので、削除する。フォルダ構成は、以下。
 
 \include{end}
 
-%% 修正時刻： Mon 2022/10/17 18:03:101
+%% 修正時刻： Wed 2022/11/09 17:36:151
