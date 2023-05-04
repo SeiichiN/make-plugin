@@ -30,7 +30,7 @@ index.html と同じ場所に置く。
 /*
  * @wordpress-plugin 
  * Plugin Name: Onclick Plugin 
- * Description: 'onclick'のテスト。ショートコードは '[insert_onclick]' 。
+ * Description: 'onclick'のテスト。ショートコードは [insert_onclick] 。
  * Version: 1.0 
  * Author: Seiichi Nukayama
  */
@@ -132,7 +132,6 @@ jsフォルダにある \textsf{onclick.js} は、\fbox{\textsf{wp\_enqueue\_scr
 
 \begin{lstlisting}[caption=onclick-plugin.php, language=PHP]
 function go_test() {
- ob_start();   // バッファに出力する文字をためる
 ?>
  <section>
    <button id="start">クリックしてね</button>
@@ -145,7 +144,6 @@ function go_test() {
    </div>
  </section>
  <?php
- return ob_get_clean();   // バッファから文字を出力する
 }
 add_shortcode('insert_onclick', 'go_test');
 \end{lstlisting}
@@ -184,7 +182,6 @@ function add_somefiles() {
 add_action('wp_enqueue_scripts', 'add_somefiles');
  
 function go_test() {
- ob_start();
 ?>
  <section>
    <button id="start">クリックしてね</button>
@@ -197,7 +194,6 @@ function go_test() {
    </div>
  </section>
  <?php
- return ob_get_clean();
 }
 add_shortcode('insert_onclick', 'go_test');
 \end{lstlisting}
@@ -255,4 +251,4 @@ index.html は不要なので、削除する。フォルダ構成は、以下。
 
 \include{end}
 
-%% 修正時刻： Wed 2022/11/09 17:36:151
+%% 修正時刻： Thu 2023/05/04 14:30:171
