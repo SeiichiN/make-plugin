@@ -11,15 +11,16 @@ function onclick_plugin_menu() {
 add_action('admin_menu', 'onclick_plugin_menu');
 
 function onclick_plugin_admins_page() {
-  ?>
+  ob_start();
+?>
   <div class="wrap">
-    <?php screen_icon(); ?>
     <h2>onclick plugin 設定</h2>
     <p>このショートコードをコピーしてください</p>
     <input type="text" onfocus="this.select()"
        style="font-size: 24px" value="[insert_onclick]"/>
   </div>
 <?php 
+  echo ob_get_clean();     // echo で出力する。return だと出力されない。
 }
 
 

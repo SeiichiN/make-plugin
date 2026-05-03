@@ -1,17 +1,21 @@
 <?php
 /*
- * @wordpress-plugin                                                      // <1>
- * Plugin Name: Onclick Plugin                                            // <2>
- * Description: 'onclick'のテスト。ショートコードは '[insert_onclick]' 。 // <3>
- * Version: 1.1                                                           // <4>
- * Author: Seiichi Nukayama                                               // <5>
- */
+ @wordpress-plugin                                                      // <1>
+ Plugin Name: Onclick Plugin                                            // <2>
+ Description: 'onclick'のテスト。ショートコードは [insert_onclick] です。 // <3>
+ Version: 1.1                                                           // <4>
+ Author: Seiichi Nukayama                                               // <5>
+*/
 
 require_once('onclick-plugin-menu.php');
 
 function add_somefiles() {
-  wp_enqueue_script('onclick', plugins_url('js/onclick.js', __FILE__), array('jquery'), '1.0', true);
-  wp_enqueue_style('onclick', plugins_url('css/onclick.css', __FILE__));
+  wp_enqueue_script('onclick', 
+                    plugin_dir_url( __FILE__ ) . 'js/onclick.js', 
+                    array('jquery'), '1.0', true);
+  wp_enqueue_style('onclick', 
+                    plugin_dir_url( __FILE__ ) . 'css/onclick.css',
+                    array(), '1.0');
 }
 add_action('wp_enqueue_scripts', 'add_somefiles');
  
@@ -21,13 +25,15 @@ function go_test() {
  <section>
    <button id="start">クリックしてね</button>
    <div id="area">
-     <img id="close" src="<?php echo plugins_url('img/close.gif', __FILE__); ?>" alt="close">
+     <img id="close" src="<?php echo plugin_dir_url( __FILE__ ) . 'img/close.gif'; ?>" alt="close">
      <p>これはクリックすると、文字列を表示するだけのシンプルなプラグインです。<br>
         プラグインの勉強のために作成しました。</p>
    </div>
  </section>
  <?php
  return ob_get_clean();
+ // echo ob_get_clean();  だと、ショートコードを挿入した場所に、文字列が表示されない。
+ // return で返す必要がある。
 }
 add_shortcode('insert_onclick', 'go_test');
 
