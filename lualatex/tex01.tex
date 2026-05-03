@@ -1,4 +1,4 @@
-\documentclass[dvipdfmx]{jsarticle}
+\documentclass{ltjsarticle}
 
 \include{begin}
 
@@ -6,7 +6,7 @@
 
 以下のような、簡単なWebアプリを作成してみた。
 
-\begin{lstlisting}[caption=index.html]
+\begin{codebox}{html}{index.html}
  <!doctype html>
  <html lang="ja">
    <head>
@@ -28,10 +28,9 @@
      <script src="js/onclick.js"></script>
    </body>
  </html>
-\end{lstlisting}
+\end{codebox}
 
-\begin{multicols}{2}
-\begin{lstlisting}[caption=onclick.js]
+\begin{codebox}{javascript}{onclick.js}
 'use strict';
 
 $(function () {
@@ -45,10 +44,10 @@ $(function () {
     $('#start').css('display', 'block');
   });
 });
-\end{lstlisting}
+\end{codebox}
 
 
-\begin{lstlisting}[caption=onclick.css]
+\begin{codebox}{css}{onclick.css}
 @charset "UTF-8";
 
 #area {
@@ -62,8 +61,7 @@ $(function () {
 #close {
   cursor: pointer;
 }
-\end{lstlisting}
-\end{multicols}
+\end{codebox}
 
 \vspace{3mm}
 \includegraphics[width=4cm]{img/app01.png}
@@ -82,7 +80,7 @@ $(function () {
 フォルダ構成は、以下のとおり。
 
 \begin{spacing}{0.8}
-\begin{verbatim}
+\begin{minted}[linenos=false]{text}
 ./onclick-plugin
 ├── css/
 │   └── onclick.css
@@ -91,7 +89,7 @@ $(function () {
 ├── index.html
 └── js/
     └── onclick.js
-\end{verbatim}
+\end{minted}
 \end{spacing}
 
     
@@ -99,4 +97,4 @@ $(function () {
 
 \include{end}
 
-%% 修正時刻： Sun Oct 31 10:46:56 2021
+%% 修正時刻： Sun 2026/05/03 17:32:331

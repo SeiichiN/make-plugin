@@ -1,0 +1,46 @@
+\documentclass{ltjsarticle}
+
+\input{begin}
+\input{title}
+
+\renewcommand{\include}[1]{}
+
+\renewcommand\documentclass[2][]{}
+
+
+%% --------- title page ------------------
+%% タイトルページを作成する
+%% 目次も作成する
+\maketitle
+
+\pagenumbering{roman}
+\setcounter{tocdepth}{3}
+\tableofcontents
+
+\newpage
+%% --------- title page end --------------
+
+%% -------- title ------------------
+%% タイトルページは作成しない。
+%% タイトル・バージョン・作者名・作成日
+% \mytitle
+%
+%% テストタイトル・実施日
+% \testtitle
+%% --------- title end -------------
+\pagenumbering{arabic}
+
+\input{tex01}
+\newpage
+
+\input{tex02}
+\newpage
+
+\input{tex03}
+\newpage
+
+
+
+\input{end}
+
+%% 修正時刻： Sun 2026/05/03 17:32:331

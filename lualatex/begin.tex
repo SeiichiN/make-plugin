@@ -1,0 +1,119 @@
+
+\usepackage{minted}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\tcbuselibrary{minted}
+\usepackage{color}
+\usepackage{url}
+\usepackage[unicode]{hyperref}
+\usepackage{amsmath, amssymb}
+\usepackage{enumerate}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage{setspace}	% required for `\spacing'
+\usepackage{fontspec}
+\usepackage{luatexja}
+\usepackage{luatexja-fontspec}
+\usepackage[default]{cantarell}
+\usemintedstyle{default}
+\fboxrule=0.5pt
+\parindent=1em
+\definecolor{mygrey}{rgb}{0.97, 0.97, 0.97}
+
+\makeatletter
+\hypersetup{
+  pdftitle={\@title},
+  pdfauthor={\@author}
+}
+\newcommand{\version}[1]{\gdef\@version{#1}}
+\newcommand{\@version}{}
+\renewcommand{\maketitle}{
+  \begin{center}
+   {\LARGE \@title \par}
+   \vskip 1em
+   {\large Ver.\@version \par}
+   \vskip 1em
+   {\large \@author \par}
+   \vskip 1em
+   {\large \@date \par}
+  \end{center}
+  \vskip 2em
+}
+\newcommand{\mytitle}{
+  \begin{center}
+   {\LARGE\bf \@title \par} 
+     \center{Ver.\@version \par}
+       \rightline{\@author \hspace{2em} \@date}
+  \end{center}
+}
+\newcommand{\testtitle} {
+  \begin{center}
+   {\LARGE\bf \@title} \hspace{6mm} \@date
+  \end{center}
+}
+\makeatother
+
+%% フォント設定
+\setmainfont{Noto Serif}
+\setsansfont{Noto Sans}
+\setmonofont{DejaVu Sans Mono}    % 等幅フォント
+\setmonojfont{Noto Sans Mono CJK JP}  % 日本語等幅フォント
+%\setmainjfont{IPAexMincho}
+
+\setminted{
+  frame=none,
+  fontsize=\normalsize,
+  linenos=true,
+  breaklines=true,
+  tabsize=2
+}
+
+\begin{document}
+
+\newcommand{\pa}{\phantom{aa}}
+\newcommand{\p}{\phantom{aaaa}}
+
+% --------------------------------------
+\newtcolorbox{mytcolorbox}[1]{
+ colbacktitle=white,
+ coltitle=black,
+ colback=white,
+ boxrule=0.3pt,
+ before skip=10pt,
+ after skip=10pt,
+ toprule at break=0pt,
+ bottomrule at break=0pt,
+ title=#1}
+
+% -------------------------------
+\newcommand{\mybox}{\framebox[12mm]}
+
+\newtcblisting{codebox}[3][] {%
+  listing engine=minted,
+  minted language=#2,
+  minted options={
+    frame=none,
+    linenos,
+    breaklines,
+    xleftmargin=1em,
+    numbersep=6pt,
+    fontsize=\normalsize,
+    baselinestretch=0.9
+  },
+  title=#3,
+  listing only,
+  breakable,
+  colbacktitle=gray!5,
+  coltitle=black,
+  colback=gray!5,
+  colframe=black,
+  boxrule=0.3pt,
+  fonttitle=\bfseries,
+  before=\par\vspace{10pt},
+  after=\par\vspace{10pt},
+  toprule at break=0pt,
+  bottomrule at break=0pt,
+  #1
+}
+
+%% 修正時刻： Sun 2026/03/29 07:40:081
